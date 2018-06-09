@@ -11,6 +11,7 @@ defmodule Antsynth do
   The pheromone trace fade with time.
   When ants encounter a pheromone trace they follow it (away from home).
   Ants choose always the strongest pheromone trace to follow.
+  When ants walk the synth plays the underlying tiles midinotes.
 
   """
 
