@@ -1,0 +1,3 @@
+%{
+  "hexgrid": {:hex, :hexgrid, "2.1.0", "d1e6d22da8ae32368ef1c4f0985b20c79ff2c98192a03745a35a143c1d6aaa25", [], [], "hexpm"},
+}
