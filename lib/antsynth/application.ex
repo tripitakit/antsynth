@@ -9,7 +9,7 @@ defmodule Antsynth.Application do
     # List all child processes to be supervised
     children = [
       # Starts a worker by calling: Antsynth.Worker.start_link(arg)
-      # {Antsynth.Worker, arg},
+      {Antsynth.Server, {60, 6}}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

@@ -1,5 +1,5 @@
 defmodule Antsynth.Playground do
-  alias Antsynth.Playground
+  alias Antsynth.{Ant, Playground}
 
   @type t :: %Playground{
           midi_root: integer,
@@ -8,10 +8,10 @@ defmodule Antsynth.Playground do
         }
 
   @enforce_keys [:midi_root, :radius, :map]
-  defstruct([:midi_root, :radius, :map])
+  defstruct(@enforce_keys)
 
-  @spec init(integer, integer) :: Playground.t()
-  def init(midi_root, radius \\ 3) when radius > 0 do
+  @spec new({integer(), integer()}) :: {:ok, Playground.t()}
+  def new({midi_root, radius}) do
     {:ok, map} = HexGrid.Map.new_hex(radius)
 
     midi_map =
@@ -19,20 +19,23 @@ defmodule Antsynth.Playground do
       |> Map.keys()
       |> set_note(midi_root, map)
 
-    %Playground{midi_root: midi_root, radius: radius, map: midi_map}
+    {:ok, %Playground{midi_root: midi_root, radius: radius, map: midi_map}}
   end
 
+  @spec includes?(HexGrid.Map.t(), HexGrid.Hex.t()) :: true | false
+  defp includes?(map, hex) do
+    map
+    |> Map.has_key?(hex)
+  end
+
+  @spec set_note([], integer(), HexGrid.Map.t()) :: HexGrid.Map.t()
   defp set_note([], _root, map), do: map
 
-  defp set_note([hex | hexes], midi_root, map) do
-    # +7 => Perfect Fifth
-    # +3 => minor third
-    # +4 => Major third
-
-    midi_note = midi_root + 7 * hex.q + 3 * hex.r + 4 * hex.s
+  @spec set_note(nonempty_list(HexGrid.Hex.t()), integer(), HexGrid.Map.t()) :: nil
+  defp set_note([hex = %HexGrid.Hex{} | hexes], midi_root, map) do
+    midi_note = midi_root + hex.q + 4 * hex.r - 3 * hex.s
 
     {:ok, new_map} = HexGrid.Map.set(map, hex, :midi_note, midi_note)
-
     set_note(hexes, midi_root, new_map)
   end
 end
