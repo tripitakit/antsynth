@@ -24,7 +24,7 @@ defmodule Antsynth.Playground do
 
   @spec includes?(HexGrid.Map.t(), HexGrid.Hex.t()) :: true | false
   defp includes?(map, hex) do
-    map
+    map.data
     |> Map.has_key?(hex)
   end
 

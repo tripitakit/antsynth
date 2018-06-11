@@ -1,6 +1,6 @@
 defmodule Antsynth do
   @moduledoc """
-  Antsynth is an ants-simulation-driven midi sequencer.
+  Antsynth is an ant colony simulation driven midi sequencer.
   A colony of simulated ants is placed on a playground of hexagonal tiles.
   The tiles maps the harmonic table music note layout.
 
